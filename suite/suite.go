@@ -19,7 +19,7 @@ var matchMethod = flag.String("testify.m", "", "regular expression to select tes
 // Suite is a basic testing suite with methods for storing and
 // retrieving the current *testing.T context.
 type Suite struct {
-	*assert.Assertions
+	assert *assert.Assertions
 	require *require.Assertions
 	t       *testing.T
 }
@@ -32,7 +32,7 @@ func (suite *Suite) T() *testing.T {
 // SetT sets the current *testing.T context.
 func (suite *Suite) SetT(t *testing.T) {
 	suite.t = t
-	suite.Assertions = assert.New(t)
+	suite.assert = assert.New(t)
 	suite.require = require.New(t)
 }
 
@@ -50,10 +50,10 @@ func (suite *Suite) Require() *require.Assertions {
 // assert.Assertions with require.Assertions), this method is provided so you
 // can call `suite.Assert().NoError()`.
 func (suite *Suite) Assert() *assert.Assertions {
-	if suite.Assertions == nil {
-		suite.Assertions = assert.New(suite.T())
+	if suite.assert == nil {
+		suite.assert = assert.New(suite.T())
 	}
-	return suite.Assertions
+	return suite.assert
 }
 
 func failOnPanic(t *testing.T) {

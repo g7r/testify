@@ -207,7 +207,7 @@ func (suite *SuiteTester) TestOne() {
 	beforeCount := suite.TestOneRunCount
 	suite.TestOneRunCount++
 	assert.Equal(suite.T(), suite.TestOneRunCount, beforeCount+1)
-	suite.Equal(suite.TestOneRunCount, beforeCount+1)
+	suite.Assert().Equal(suite.TestOneRunCount, beforeCount+1)
 }
 
 // TestTwo is another example of a test.
@@ -215,7 +215,7 @@ func (suite *SuiteTester) TestTwo() {
 	beforeCount := suite.TestTwoRunCount
 	suite.TestTwoRunCount++
 	assert.NotEqual(suite.T(), suite.TestTwoRunCount, beforeCount)
-	suite.NotEqual(suite.TestTwoRunCount, beforeCount)
+	suite.Assert().NotEqual(suite.TestTwoRunCount, beforeCount)
 }
 
 func (suite *SuiteTester) TestSkip() {
@@ -244,9 +244,9 @@ func (suite *SuiteTester) TestSubtest() {
 			// go test recognizes them as proper subtests for output formatting
 			// and running individual subtests
 			subTestT := suite.T()
-			suite.NotEqual(subTestT, suiteT)
+			suite.Assert().NotEqual(subTestT, suiteT)
 		})
-		suite.Equal(suiteT, suite.T())
+		suite.Assert().Equal(suiteT, suite.T())
 	}
 }
 
@@ -377,7 +377,7 @@ func TestSuiteGetters(t *testing.T) {
 	suite := new(SuiteTester)
 	suite.SetT(t)
 	assert.NotNil(t, suite.Assert())
-	assert.Equal(t, suite.Assertions, suite.Assert())
+	assert.Equal(t, suite.assert, suite.Assert())
 	assert.NotNil(t, suite.Require())
 	assert.Equal(t, suite.require, suite.Require())
 }
